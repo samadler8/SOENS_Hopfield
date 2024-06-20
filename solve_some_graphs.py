@@ -6,12 +6,10 @@ from partition_functions import *
 current_directory = os.getcwd()
 
 
-N = 25
-A = WS_adjacency_matrix(N, 0.5, 0.1)
+N = 100
+# A = WS_adjacency_matrix(N, 0.2, 0.2)
 # A = trivial_graphs[3]
-
-Q = get_Q(A)
-print(Q)
+A = ER_adjacency_matrix(N, 0.15)
 
 modularity_x, laypunov_M_x, laypunov_Q_x, QUBO_x = get_ideal_partitions(A, alpha=1, gamma=1)
 

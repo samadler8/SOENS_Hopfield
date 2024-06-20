@@ -1,17 +1,26 @@
 import os
 from example_graphs import *
 from partition_functions import *
+from gpp_helpers import *
 
+seed=None
 
 current_directory = os.getcwd()
 
+n = 1000
+k = 0.5
+p = 0.1
 
-N = 100
-# A = WS_adjacency_matrix(N, 0.2, 0.2)
-# A = trivial_graphs[3]
-A = ER_adjacency_matrix(N, 0.15)
+alpha = 1
+gamma = 1
 
-modularity_x, laypunov_M_x, laypunov_Q_x, QUBO_x = get_ideal_partitions(A, alpha=1, gamma=1)
+G = nx.watts_strogatz_graph(n, k, p, seed=seed)
+G = nx.scale_free_graph(n, alpha=0.41, beta=0.54, gamma=0.05, delta_in=0.2, delta_out=0, seed=seed)
+G = nx.erdos_renyi_graph(n, p, seed=seed)
+
+A = nx.adjacency_matrix(G)
+
+modularity_x, laypunov_M_x, laypunov_Q_x, QUBO_x = get_ideal_partitions(A, alpha=alpha, gamma=gamma)
 
 path_pics = os.path.join(current_directory, 'pics')
 

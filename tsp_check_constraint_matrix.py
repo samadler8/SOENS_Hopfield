@@ -7,14 +7,14 @@ import numpy as np
 
 N = 100 #number of nodes
 
-different_row_column_value = -1
-same_row_column_value = N
+different_row_column_value = 0 #1
+same_row_column_value = -1 #-N
 # if not(same_row_column_value < -N*different_row_column_value/2):
 #     print("Invalid parameters for same/different row/column weights")
 
 
 # diagonal_value = -(N-1)*(2*same_row_column_value + (N-1)*different_row_column_value)
-diagonal_value = -N
+diagonal_value = 0 #N
 
 C = np.zeros((N**2, N**2), dtype=int)
 for i in np.arange(N**2):

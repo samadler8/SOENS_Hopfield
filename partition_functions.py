@@ -4,18 +4,27 @@ from networkx.algorithms.community.quality import modularity
 import matplotlib.pyplot as plt
 import os
 
+Q_alpha = 1
+MM_gamma = 1
 
-def get_Q(A, alpha=1): # get the Q matrix
+def get_GPP_QUBO(A):
+    '''
+    returns QUBO matrix for GPP
+    '''
     N = A.shape[0]
-    Q = A - alpha
+    Q = A - Q_alpha
     for i in np.arange(N):
-        Q[i][i] = alpha*(N - 1) - np.sum(A[i])
+        Q[i][i] = Q_alpha*(N - 1) - np.sum(A[i])
     return Q
 
-def get_M(A, gamma=1): # Get the modulatity matrix
+def get_modularity_matrix(A):
+    '''
+    returns the modularity matrix
+    '''
     m2 = np.sum(A) # 2 times number of edges
     g = np.sum(A, axis=1) # degree matrix
-    M = A - (gamma/m2)*np.outer(g, g)
+    M = A - (MM_gamma/m2)*np.outer(g, g)
+    print(M)
     return M
 
 def get_coms_from_x(x):
@@ -31,13 +40,13 @@ def get_s_from_x(x):
     s = 2*x - np.ones((x.size))
     return s
 
-def get_modularity(x, A, gamma=1):
+def get_modularity(x, A):
     '''
     Ideal when max
     '''
     coms = get_coms_from_x(x)
     G = nx.from_numpy_array(A)
-    modularity = nx.algorithms.community.quality.modularity(G, coms, resolution=gamma)
+    modularity = nx.algorithms.community.quality.modularity(G, coms, resolution=1)
     return modularity
 
 def get_laypunov(x, W, b=0):
@@ -60,13 +69,13 @@ def get_original_QUBO(x, A, alpha=1):
     E = np.matmul(np.matmul(np.transpose(s), (alpha*np.ones((A.shape)) - A)), s)
     return E
 
-def get_ideal_partitions(A, alpha=1, gamma=1):
+def get_ideal_partitions(A):
     N = A.shape[0]
-    Q = get_Q(A, alpha=alpha)
-    M = get_M(A, gamma=gamma)
+    Q = get_GPP_QUBO(A)
+    M = get_modularity_matrix(A)
     x = np.zeros(N, dtype = int)
 
-    modularity = get_modularity(x, A, gamma=gamma)
+    modularity = get_modularity(x, A)
     laypunov_M = get_laypunov(x, M)
     laypunov_Q = get_laypunov(x, Q)
     QUBO = get_original_QUBO(x, A)
@@ -85,7 +94,7 @@ def get_ideal_partitions(A, alpha=1, gamma=1):
                 x[i] = 1
                 x[i-1] += 1
         
-        modularity_temp = get_modularity(x, A, gamma=gamma)
+        modularity_temp = get_modularity(x, A)
         laypunov_M_temp = get_laypunov(x, M)
         laypunov_Q_temp = get_laypunov(x, Q)
         QUBO_temp = get_original_QUBO(x, A)

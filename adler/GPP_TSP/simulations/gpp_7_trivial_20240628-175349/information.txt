@@ -1,0 +1,19 @@
+Graph information for gpp_7_trivial_20240628-175349
+Simulation started on 20240628-175349 
+
+number of nodes is: 7
+
+Constants:
+    seed: 3619444
+    Q_alpha: 1
+    MM_gamma: 1
+    
+Benchmark Partitions:
+    Partition Type & laypunov_M & laypunov_Q
+    \multirow{8}{*}{7} & \rowcolor{yellow} kernighan-lin & -1.23 & -1 \\
+     & \rowcolor{yellow} girvan-newman & -1.23 & -1 \\ 
+
+Ideal Partitions:
+Partition Type & laypunov_M & laypunov_Q
+     & \rowcolor{blue} ideal_laypunov_M & -1.23 & -1 \\
+     & \rowcolor{blue} ideal_laypunov_Q & -1.23 & -1 \\ 
